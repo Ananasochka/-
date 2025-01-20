@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title> Javascript demo </title>
+	<meta charset="utf-8">
+	<style>
+		#container{
+			width:500px;
+			height:fit-content;
+			background-color:rgb(93,109,121);
+			display:grid;
+			grid-auto-flow: row;
+			grid-template-columns: 1fr 1fr 1fr 1fr;
+			grid-auto-rows: fit-content;
+			grid-gap: 5px;
+			margin: auto;
+		}
+		.screen{
+			font-size:60px;
+			color: rgb(104,143,65);
+			background-color:rgb(173,200,123);
+			width: 100%;
+			height: fit-content;
+			grid-column: span 4;
+			text-align: right;
+			}
+		.button{
+			color: rgb(93,109,121);
+			font-size:40px;
+			text-align: center;
+			background-color:rgb(244,238,247);
+			transition: all 0.5s;
+		}
+		.button:hover{
+			background-color: rgb(244,238,247);
+			color: rgb(93,109,121);
+		}
+	</style>
+	<script src="vue.global.js"></script> <!--подключаем Vue.js--> 
+</head>
+<body>
+	<div id="container">
+		<div>
+			Vue - Калькулятор версия 0.1
+		</div>
+		<div class="screen">{{ekran}}</div> <!--вставка переменной в виде шаблона-->
+		<div class="button" @click="numClick(1)">1</div>
+		<div class="button" @click="numClick(2)">2</div>
+		<div class="button" @click="numClick(3)">3</div>
+		<div class="button" @click="deistClick('*')">*</div>
+		<div class="button" @click="numClick(4)">4</div>
+		<div class="button" @click="numClick(5)">5</div>
+		<div class="button" @click="numClick(6)">6</div>
+		<div class="button" @click="deistClick('/')">/</div>
+		<div class="button" @click="numClick(7)">7</div>
+		<div class="button" @click="numClick(8)">8</div>
+		<div class="button" @click="numClick(9)">9</div>
+		<div class="button" @click="deistClick('+')">+</div>
+		<div class="button" @click="numClick(0)">0</div>
+		<div class="button" @click="pointClick()">.</div>
+		<div class="button" @click="ravnoClick()">=</div>
+		<div class="button" @click="deistClick('-')">-</div>
+	</div>
+</body>
+<script>
+
+
+const { createApp, ref } = Vue // Инициализируем Vue
+
+let app=  createApp({ // Создается объект Vue
+     data() { // конструктор данных
+		return {
+		ekran: "0", // Создаем переменные для шаблона
+		deist: "", // Действие
+		arg_a: 0, // Переменная - предыдущее число
+		}
+	},
+	 methods: // Набор доступных методов для обработки 
+	 {
+		numClick(param) // Обработчик событий с доступом к переменным шаблона
+		{
+			if (this.ekran=="0")
+			{
+				this.ekran="";
+			}
+			this.ekran=this.ekran+param;
+		},
+		deistClick(param) // Обработчик событий с доступом к переменным шаблона
+		{
+			this.deist = param; // Запомнили дейстиве
+			this.arg_a = Number(this.ekran);
+			this.ekran="0";
+		},
+		ravnoClick() // Обработчик событий с доступом к переменным шаблона
+		{
+			let res = 0;
+			let arg_b  = Number(this.ekran);
+			if (this.deist=="+")
+			{
+				res=this.arg_a +arg_b;
+			}else if (this.deist=="+")
+			{
+				res=this.arg_a -arg_b;
+			}
+			
+			this.ekran = res;
+			
+		},
+		pointClick() // Обработчик событий с доступом к переменным шаблона
+		{
+			this.ekran=this.ekran+".";
+		}
+	 }
+  })
+app.mount('#container') // Цепляем объект Vue.JS
+
+</script>
